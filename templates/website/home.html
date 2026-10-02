@@ -3,7 +3,6 @@
 {% block description %}High-performance websites, digital experiences and growth-focused marketing systems for ambitious businesses.{% endblock %}
 {% block content %}
 {% include "partials/hero.html" %}
-{% include "partials/marquee.html" %}
 
 <section class="section section-white" id="services">
     <div class="container">
@@ -15,17 +14,34 @@
     </div>
 </section>
 
+{% include "partials/marquee.html" %}
+
+<section class="intelligence-section">
+    <div class="container">
+        <div class="section-head"><div><span class="eyebrow">NXTWALK / Core 01</span><h2>Turning digital data into momentum.</h2></div><span class="system-chip"><i></i> Connected system</span></div>
+        <div class="intelligence-grid">
+            <div class="intelligence-visual reveal" aria-hidden="true">
+                <div class="intelligence-grid-plane"></div>
+                <div class="intelligence-rings"><i></i><i></i><i></i><b></b></div>
+                <span class="intelligence-node node-web">Web</span><span class="intelligence-node node-search">Search</span><span class="intelligence-node node-content">Content</span><span class="intelligence-node node-campaign">Campaign</span><span class="intelligence-node node-learn">Learn</span>
+                <span class="intelligence-tag tag-input">Inputs / Intent</span><span class="intelligence-tag tag-output">Signals / Action</span>
+            </div>
+            <div class="intelligence-copy reveal"><span class="eyebrow">Digital intelligence</span><h3>One joined-up view.<br>More useful next steps.</h3><p>We connect your website, search presence, content and campaigns into a system your team can understand and improve.</p><p class="sample-note">Illustrative systems visualization. No client performance figures shown.</p></div>
+        </div>
+    </div>
+</section>
+
 <section class="kinetic-section" aria-label="NXTWALK builds digital momentum">
     <div class="container">
-        <div class="kinetic-copy reveal"><span>We don't just</span><span>build websites.</span><span class="accent">We build</span><span class="accent">digital momentum.</span></div>
+        <div class="kinetic-copy reveal"><span>We don't</span><span>follow digital.</span><span class="accent">We build</span><span class="accent">what's next.</span></div>
         <p class="kinetic-aside reveal">A clear digital presence, a useful customer journey and growth work that knows where it is going.</p>
     </div>
 </section>
 
 <section class="section section-dark">
     <div class="container why-grid">
-        <div class="why-intro"><span class="eyebrow">About NXTWALK</span><h2>We combine technology, design and growth.</h2><p>One connected team brings your website, content and marketing into the same conversation. We build useful digital foundations, then keep improving the journey.</p><a class="text-link" href="{% url 'website:about' %}">Get to know us <span aria-hidden="true">&#8599;</span></a></div>
-        <div class="principles"><article class="principle"><span>01</span><div><h3>Technology with intent</h3><p>Choose dependable tools and build around the work they need to do.</p></div></article><article class="principle"><span>02</span><div><h3>Design for real people</h3><p>Make information clear and the next useful action easy to reach.</p></div></article><article class="principle"><span>03</span><div><h3>Growth with a point of view</h3><p>Connect search, content and campaigns to business priorities.</p></div></article></div>
+        <div class="why-intro"><span class="eyebrow">NXTWALK / Digital innovation studio</span><h2>We combine technology, design and growth.</h2><p>One connected team brings your website, content and marketing into the same conversation. We build useful digital foundations, then keep improving the journey.</p><a class="text-link" href="{% url 'website:about' %}">Get to know us <span aria-hidden="true">&#8599;</span></a></div>
+        <div class="about-system reveal" role="img" aria-label="NXTWALK connected to web, code, design, SEO and growth disciplines"><span class="about-system-line line-one"></span><span class="about-system-line line-two"></span><span class="about-system-line line-three"></span><span class="about-system-line line-four"></span><div class="about-system-hub">NXTWALK<small>Digital innovation studio</small></div><span class="about-system-node about-node-web">Web</span><span class="about-system-node about-node-code">Code</span><span class="about-system-node about-node-design">Design</span><span class="about-system-node about-node-seo">SEO</span><span class="about-system-node about-node-growth">Growth</span></div>
     </div>
 </section>
 
@@ -69,5 +85,8 @@
 <section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">Journal</span><h2>Ideas for the road ahead.</h2></div><a class="text-link" href="{% url 'blog:list' %}">Read the journal <span aria-hidden="true">&#8599;</span></a></div><div class="journal-grid">{% for post in posts %}{% include "partials/blog_card.html" with post=post %}{% endfor %}</div></div></section>
 {% endif %}
 
-<section class="section section-white"><div class="container">{% include "partials/cta.html" %}</div></section>
+<section class="final-cta-section">
+    <div class="final-cta-orbit" aria-hidden="true"><i></i><i></i><b></b></div>
+    <div class="container">{% include "partials/cta.html" %}</div>
+</section>
 {% endblock %}

@@ -1,11 +1,12 @@
 <section class="hero" aria-labelledby="hero-title">
     <div class="container hero-inner">
         <div class="hero-copy">
-            <span class="eyebrow">Technology / Design / Digital growth</span>
+            <span class="eyebrow">NXTWALK / Digital innovation studio</span>
+            <span class="hero-system-status"><i></i> System online <span>NXT / 001</span></span>
             <h1 class="hero-title" id="hero-title">
                 <span class="hero-line" style="--line-delay:.08s"><span>Build.</span></span>
                 <span class="hero-line" style="--line-delay:.2s"><span>Grow.</span></span>
-                <span class="hero-line" style="--line-delay:.32s"><span>Walk ahead.</span></span>
+                <span class="hero-line hero-line-wide" style="--line-delay:.32s"><span>Walk ahead.</span></span>
             </h1>
             <p>We build high-performance websites, powerful digital experiences and growth-focused marketing systems for ambitious businesses.</p>
             <div class="hero-actions">
@@ -13,20 +14,15 @@
                 <a class="button button-dark" href="{% url 'portfolio:list' %}">Explore our work</a>
             </div>
         </div>
-        <div class="hero-art" data-tilt role="img" aria-label="Abstract three-dimensional digital growth visual">
-            <div class="hero-orbit" aria-hidden="true"><span class="orbit-ring"></span><span class="orbit-ring"></span><span class="orbit-core"></span><i class="orbit-dot"></i><i class="orbit-dot"></i></div>
-            <div class="signal-board">
-                <div class="signal-top">
-                    <div class="signal-label"><i></i> NXTWALK / growth systems</div>
-                    <div class="signal-tabs" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="signal-content">
-                    <div class="signal-chart" aria-hidden="true"><span style="--bar:35%;--delay:.05s"></span><span style="--bar:49%;--delay:.1s"></span><span style="--bar:42%;--delay:.15s"></span><span style="--bar:66%;--delay:.2s"></span><span style="--bar:58%;--delay:.25s"></span><span style="--bar:76%;--delay:.3s"></span><span style="--bar:68%;--delay:.35s"></span><span style="--bar:91%;--delay:.4s"></span></div>
-                    <div class="signal-side"><div><small>Build</small><strong>Digital home</strong></div><div><small>Reach</small><strong>Search intent</strong></div><div><small>Grow</small><strong>Better journeys</strong></div></div>
-                </div>
-                <div class="signal-caption"><span>Strategy / Design / Delivery</span><span>Move with intent</span></div>
-            </div>
-            <div class="hero-note"><span>Digital, connected</span>One team from first click to next step.</div>
+        <div class="hero-art" data-tilt>
+            <canvas class="digital-core-canvas" data-digital-core aria-hidden="true"></canvas>
+            <div class="core-ring core-ring-one" aria-hidden="true"></div>
+            <div class="core-ring core-ring-two" aria-hidden="true"></div>
+            <span class="hero-hud hero-hud-top" aria-hidden="true"><i></i> Digital engine / active</span>
+            <span class="hero-hud hero-hud-left" aria-hidden="true">01 / Web engine<br><b>Connected</b></span>
+            <span class="hero-hud hero-hud-right" aria-hidden="true">02 / Search<br><b>Optimized</b></span>
+            <span class="hero-hud hero-hud-bottom" aria-hidden="true">Growth mode <b>On</b></span>
         </div>
     </div>
+    <a class="hero-scroll" href="#services"><span>Scroll to explore</span><i aria-hidden="true"></i></a>
 </section>
