@@ -1,0 +1,8 @@
+<article class="project-card reveal">
+    <a href="{% url 'portfolio:detail' project.slug %}">
+        <div class="project-image">
+            {% if project.featured_image %}<img src="{{ project.featured_image.url }}" alt="{{ project.title }} project for {{ project.client_name }}" loading="lazy">{% else %}<div class="project-art" aria-hidden="true"><span>{{ project.category }}</span><i></i><i></i></div>{% endif %}
+        </div>
+        <div class="project-card-copy"><span>{{ project.category }} / {{ project.client_name }}</span><h3>{{ project.title }}</h3><p>{{ project.description|truncatewords:18 }}</p></div>
+    </a>
+</article>

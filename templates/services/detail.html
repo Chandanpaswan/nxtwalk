@@ -1,9 +1,20 @@
 {% extends "base.html" %}
-{% block title %}{{ service.title }} | NXTWALK{% endblock %}
+{% block title %}{{ service.seo_title|default:service.title }} | NXTWALK{% endblock %}
+{% block description %}{{ service.seo_description|default:service.short_description }}{% endblock %}
+{% block keywords %}{{ service.keywords|default:service.title }}{% endblock %}
+{% block canonical %}{% if service.canonical_url %}{{ service.canonical_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}{% endblock %}
+{% block og_title %}{{ service.seo_title|default:service.title }} | NXTWALK{% endblock %}
+{% block og_description %}{{ service.seo_description|default:service.short_description }}{% endblock %}
+{% block twitter_title %}{{ service.seo_title|default:service.title }} | NXTWALK{% endblock %}
+{% block twitter_description %}{{ service.seo_description|default:service.short_description }}{% endblock %}
+{% block og_image %}{% if service.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ service.featured_image.url }}{% endif %}{% endblock %}
+{% block twitter_image %}{% if service.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ service.featured_image.url }}{% endif %}{% endblock %}
+{% block extra_head %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"{{ service.title|escapejs }}","description":"{{ service.seo_description|default:service.short_description|escapejs }}","provider":{"@type":"Organization","name":"NXTWALK"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ request.scheme }}://{{ request.get_host }}{% url 'website:home' %}"},{"@type":"ListItem","position":2,"name":"Services","item":"{{ request.scheme }}://{{ request.get_host }}{% url 'services:list' %}"},{"@type":"ListItem","position":3,"name":"{{ service.title|escapejs }}","item":"{{ request.build_absolute_uri }}"}]}</script>{% endblock %}
 {% block content %}
-<section class="container section">
-<h1>{{ service.title }}</h1>
-<p>{{ service.short_description }}</p>
-<div>{{ service.description|linebreaks }}</div>
+<section class="page-heading"><div class="container"><span class="eyebrow">NXTWALK service</span><h1>{{ service.title }}</h1><p>{{ service.short_description }}</p></div></section>
+<section class="content-section"><div class="container article-layout">
+	<article class="article-body"><div>{{ service.description|linebreaks }}</div><p><a class="button button-ink" href="{% url 'contact:contact' %}?service={{ service.slug }}">Discuss this service <span aria-hidden="true">&#8599;</span></a></p></article>
+	<aside class="article-aside"><h2>Related services</h2>{% for related in related_services %}<a href="{% url 'services:detail' related.slug %}">{{ related.title }}</a>{% endfor %}<a href="{% url 'services:list' %}">All services &#8599;</a></aside>
+</div>
 </section>
 {% endblock %}

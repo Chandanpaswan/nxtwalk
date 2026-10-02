@@ -1,9 +1,27 @@
 {% extends "base.html" %}
-{% block title %}{{ post.title }} | NXTWALK{% endblock %}
+{% block title %}{{ post.seo_title|default:post.title }} | NXTWALK{% endblock %}
+{% block description %}{{ post.seo_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}{% endblock %}
+{% block keywords %}{{ post.keywords|default:post.title }}{% endblock %}
+{% block canonical %}{% if post.canonical_url %}{{ post.canonical_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ post.seo_title|default:post.title }} | NXTWALK{% endblock %}
+{% block og_description %}{{ post.seo_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}{% endblock %}
+{% block twitter_title %}{{ post.seo_title|default:post.title }} | NXTWALK{% endblock %}
+{% block twitter_description %}{{ post.seo_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}{% endblock %}
+{% block og_image %}{% if post.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ post.featured_image.url }}{% endif %}{% endblock %}
+{% block twitter_image %}{% if post.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ post.featured_image.url }}{% endif %}{% endblock %}
+{% block extra_head %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"{{ post.title|escapejs }}","description":"{{ post.seo_description|default:post.excerpt|truncatechars:160|escapejs }}","datePublished":"{{ post.published_at|date:'c' }}","dateModified":"{{ post.updated_at|date:'c' }}","author":{"@type":"Person","name":"{{ post.author.get_full_name|default:post.author.username|default:'NXTWALK'|escapejs }}"},"mainEntityOfPage":"{{ request.build_absolute_uri }}"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ request.scheme }}://{{ request.get_host }}{% url 'website:home' %}"},{"@type":"ListItem","position":2,"name":"Journal","item":"{{ request.scheme }}://{{ request.get_host }}{% url 'blog:list' %}"},{"@type":"ListItem","position":3,"name":"{{ post.title|escapejs }}","item":"{{ request.build_absolute_uri }}"}]}</script>{% endblock %}
 {% block content %}
-<article class="container section">
-<h1>{{ post.title }}</h1>
-{% if post.published_at %}<p class="muted">{{ post.published_at|date:"d M Y" }}</p>{% endif %}
-<div>{{ post.content|linebreaks }}</div>
+<section class="page-heading"><div class="container"><span class="eyebrow">{% if post.category %}{{ post.category.name }}{% else %}NXTWALK journal{% endif %}</span><h1>{{ post.title }}</h1><p>{% if post.published_at %}{{ post.published_at|date:"d M Y" }}{% endif %}{% if post.author %} &middot; {{ post.author.get_full_name|default:post.author.username }}{% endif %}</p></div></section>
+<section class="content-section"><div class="container article-layout">
+	<article class="article-body">
+		{% if post.featured_image %}<img class="featured-image" src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="eager">{% endif %}
+		<div>{{ post.content|linebreaks }}</div>
+		{% if post.tags.all %}<div class="filter-row" aria-label="Article topics">{% for tag in post.tags.all %}<a class="tag-link" href="{% url 'blog:tag' tag.slug %}">{{ tag.name }}</a>{% endfor %}</div>{% endif %}
+		<div class="share-row" aria-label="Share article"><span>Share</span><a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener noreferrer">Facebook</a><a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ post.title|urlencode }}" target="_blank" rel="noopener noreferrer">X</a></div>
+		<p><a class="text-link" href="{% url 'blog:list' %}">&#8592; Back to the journal</a></p>
+	</article>
+	<aside class="article-aside"><h2>Keep reading</h2>{% for related in related_posts %}<a href="{% url 'blog:detail' related.slug %}">{{ related.title }}</a>{% empty %}{% for recent in recent_posts %}<a href="{% url 'blog:detail' recent.slug %}">{{ recent.title }}</a>{% endfor %}{% endfor %}</aside>
+</div>
 </article>
 {% endblock %}

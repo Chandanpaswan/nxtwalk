@@ -1,12 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Login | NXTWALK{% endblock %}
+{% block title %}Log In | NXTWALK{% endblock %}
 {% block content %}
-<section class="container section">
-<h1>Login</h1>
-<form method="post" class="form">
-{% csrf_token %}
-{{ form.as_p }}
-<button class="btn" type="submit">Login</button>
-</form>
-</section>
+<section class="page-heading"><div class="container"><span class="eyebrow">Client access</span><h1>Welcome back.</h1><p>Sign in to your NXTWALK account.</p></div></section>
+<section class="content-section"><div class="container form-layout">
+	<div class="form-intro"><h1>Pick up where you left off.</h1><p>Use your account credentials to access your profile and project workspace.</p></div>
+	<form method="post" class="form" novalidate>
+		{% csrf_token %}
+		{% if form.non_field_errors %}<div class="form-error">{{ form.non_field_errors }}</div>{% endif %}
+		{% for field in form %}<div class="form-field form-field-full"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
+		{% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+		<button class="button button-ink" type="submit">Log in <span aria-hidden="true">&#8599;</span></button>
+		<p><a href="{% url 'accounts:password_reset' %}">Forgot your password?</a></p>
+		<p>New to NXTWALK? <a href="{% url 'accounts:register' %}">Create an account</a></p>
+	</form>
+</div></section>
 {% endblock %}

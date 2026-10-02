@@ -1,0 +1,7 @@
+<a class="journal-card reveal" href="{% url 'blog:detail' post.slug %}">
+    {% if post.featured_image %}<div class="journal-image"><img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy"></div>{% endif %}
+    <span class="journal-meta">{% if post.category %}{{ post.category.name }} / {% endif %}{{ post.published_at|date:"d M Y" }} / {{ post.read_time }} min read</span>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.excerpt|default:post.content|truncatewords:20 }}</p>
+    <span class="arrow" aria-hidden="true">&#8599;</span>
+</a>

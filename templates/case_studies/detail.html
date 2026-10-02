@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ study.seo_title|default:study.project.title }} Case Study | NXTWALK{% endblock %}
+{% block description %}{{ study.seo_description|default:study.results|truncatechars:160 }}{% endblock %}
+{% block keywords %}{{ study.keywords|default:study.project.title }}{% endblock %}
+{% block canonical %}{% if study.canonical_url %}{{ study.canonical_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}{% endblock %}
+{% block og_title %}{{ study.seo_title|default:study.project.title }} Case Study | NXTWALK{% endblock %}
+{% block og_description %}{{ study.seo_description|default:study.results|truncatechars:160 }}{% endblock %}
+{% block twitter_title %}{{ study.seo_title|default:study.project.title }} Case Study | NXTWALK{% endblock %}
+{% block twitter_description %}{{ study.seo_description|default:study.results|truncatechars:160 }}{% endblock %}
+{% block og_image %}{% if study.project.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ study.project.featured_image.url }}{% endif %}{% endblock %}
+{% block twitter_image %}{% if study.project.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ study.project.featured_image.url }}{% endif %}{% endblock %}
+{% block extra_head %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"{{ study.project.title|escapejs }} case study","description":"{{ study.seo_description|default:study.results|truncatechars:160|escapejs }}","datePublished":"{{ study.published_at|date:'c' }}","publisher":{"@type":"Organization","name":"NXTWALK"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ request.scheme }}://{{ request.get_host }}{% url 'website:home' %}"},{"@type":"ListItem","position":2,"name":"Case studies","item":"{{ request.scheme }}://{{ request.get_host }}{% url 'case_studies:list' %}"},{"@type":"ListItem","position":3,"name":"{{ study.project.title|escapejs }}","item":"{{ request.build_absolute_uri }}"}]}</script>{% endblock %}
+{% block content %}
+<section class="page-heading"><div class="container"><span class="eyebrow">{{ study.industry }} &middot; {{ study.project.client_name }}</span><h1>{{ study.project.title }}</h1><p>{{ study.project.description }}</p></div></section>
+<section class="content-section"><div class="container">
+    {% if study.project.featured_image %}<img class="featured-image" src="{{ study.project.featured_image.url }}" alt="{{ study.project.title }} project" loading="eager">{% endif %}
+    <div class="detail-pairs">
+        <section><h2>The challenge</h2>{{ study.project.challenge|linebreaks }}</section>
+        <section><h2>Strategy</h2>{{ study.strategy|linebreaks }}</section>
+        <section><h2>Implementation</h2>{{ study.implementation|linebreaks }}</section>
+        {% if study.technology %}<section><h2>Technology</h2>{{ study.technology|linebreaks }}</section>{% endif %}
+        {% if study.seo_strategy %}<section><h2>SEO strategy</h2>{{ study.seo_strategy|linebreaks }}</section>{% endif %}
+        {% if study.marketing_strategy %}<section><h2>Marketing strategy</h2>{{ study.marketing_strategy|linebreaks }}</section>{% endif %}
+        <section><h2>Results</h2>{{ study.results|linebreaks }}</section>
+    </div>
+    {% if study.project.gallery.all %}<div class="project-grid">{% for image in study.project.gallery.all %}<figure class="project-card"><img class="featured-image" src="{{ image.image.url }}" alt="{{ image.alt_text|default:study.project.title }}" loading="lazy"></figure>{% endfor %}</div>{% endif %}
+    <p><a class="button button-ink" href="{% url 'contact:contact' %}">Plan a project like this <span aria-hidden="true">&#8599;</span></a></p>
+    <p><a class="text-link" href="{% url 'case_studies:list' %}">&#8592; All case studies</a></p>
+</div></section>
+{% endblock %}

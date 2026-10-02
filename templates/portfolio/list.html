@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Portfolio | NXTWALK{% endblock %}
+{% block description %}Selected website, software and digital growth projects by NXTWALK.{% endblock %}
+{% block content %}
+<section class="page-heading"><div class="container"><span class="eyebrow">Selected work</span><h1>Digital, made tangible.</h1><p>A closer look at the digital experiences and systems we create with our clients.</p></div></section>
+<section class="content-section"><div class="container">
+    <div class="project-grid">
+    {% for project in projects %}{% include "partials/project_card.html" with project=project %}
+    {% empty %}<p class="empty-state">There are no published projects to show yet. New work will appear here as it is approved for sharing.</p>{% endfor %}
+    </div>
+    {% if page_obj.paginator.num_pages > 1 %}<nav class="pagination" aria-label="Portfolio pages">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous page">&#8592;</a>{% endif %}<span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" aria-label="Next page">&#8594;</a>{% endif %}</nav>{% endif %}
+</div></section>
+{% endblock %}

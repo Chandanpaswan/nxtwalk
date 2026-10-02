@@ -1,14 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Blog | NXTWALK{% endblock %}
+{% block title %}{% if active_category %}{{ active_category.name }} | {% elif active_tag %}{{ active_tag.name }} | {% endif %}Journal | NXTWALK{% endblock %}
+{% block description %}Ideas on web development, search, content and digital growth from NXTWALK.{% endblock %}
 {% block content %}
-<section class="container section">
-<h1>NXTWALK Blog</h1>
-<div class="grid">
-{% for post in posts %}
-<article><h2><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h2><p>{{ post.excerpt }}</p></article>
-{% empty %}
-<p>No published posts yet.</p>
-{% endfor %}
+<section class="page-heading"><div class="container"><span class="eyebrow">Notes for what's next</span><h1>Ideas that keep you moving.</h1><p>Practical thinking on websites, search and the work of growing online.</p></div></section>
+<section class="content-section"><div class="container">
+	<div class="filter-row">
+		<form class="search-form" method="get" role="search"><label class="visually-hidden" for="blog-search">Search the journal</label><input id="blog-search" type="search" name="q" value="{{ query }}" placeholder="Search articles"><button type="submit">Search</button></form>
+		{% for category in categories %}<a href="{% url 'blog:category' category.slug %}">{{ category.name }}</a>{% endfor %}
+	</div>
+	<div class="journal-grid">
+	{% for post in posts %}{% include "partials/blog_card.html" with post=post %}
+	{% empty %}<p class="empty-state">{% if query %}No articles match &ldquo;{{ query }}&rdquo;. Try another search.{% elif active_category %}No published articles in this category yet.{% elif active_tag %}No published articles use this tag yet.{% else %}The journal is getting ready. Check back soon for practical notes from the NXTWALK team.{% endif %}</p>{% endfor %}
+	</div>
+	{% if page_obj.paginator.num_pages > 1 %}<nav class="pagination" aria-label="Journal pages">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}" aria-label="Previous page">&#8592;</a>{% endif %}<span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}" aria-label="Next page">&#8594;</a>{% endif %}</nav>{% endif %}
 </div>
 </section>
 {% endblock %}

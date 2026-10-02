@@ -1,0 +1,27 @@
+<header class="site-header" id="site-header">
+    <div class="container nav-wrap">
+        <a class="logo" href="{% url 'website:home' %}" aria-label="NXTWALK home">
+            <span class="logo-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>NXT<span class="logo-light">WALK</span></span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation">
+            <span></span><span></span>
+        </button>
+        <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
+            <a class="{% if request.resolver_match.namespace == 'website' and request.resolver_match.url_name == 'home' %}is-active{% endif %}" href="{% url 'website:home' %}">Home</a>
+            <a class="{% if request.resolver_match.url_name == 'about' %}is-active{% endif %}" href="{% url 'website:about' %}">About</a>
+            <a class="{% if request.resolver_match.namespace == 'services' %}is-active{% endif %}" href="{% url 'services:list' %}">Services</a>
+            <a class="{% if request.resolver_match.namespace == 'portfolio' %}is-active{% endif %}" href="{% url 'portfolio:list' %}">Work</a>
+            <a class="{% if request.resolver_match.namespace == 'case_studies' %}is-active{% endif %}" href="{% url 'case_studies:list' %}">Case studies</a>
+            <a class="{% if request.resolver_match.namespace == 'blog' %}is-active{% endif %}" href="{% url 'blog:list' %}">Blog</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}">Account</a>
+            {% if user.is_staff %}<a href="{% url 'website:admin_dashboard' %}">Dashboard</a>{% endif %}
+            <form class="nav-logout" action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button type="submit">Log out</button></form>
+            {% else %}
+            <a href="{% url 'accounts:login' %}">Log in</a>
+            {% endif %}
+            <a class="nav-contact {% if request.resolver_match.namespace == 'contact' %}is-active{% endif %}" href="{% url 'contact:contact' %}">Let's talk <span aria-hidden="true">&#8599;</span></a>
+        </nav>
+    </div>
+</header>

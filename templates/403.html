@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Access Restricted | NXTWALK{% endblock %}
+{% block robots %}noindex,follow{% endblock %}
+{% block content %}<section class="page-heading"><div class="container"><span class="eyebrow">403 &middot; Access restricted</span><h1>This area needs permission.</h1><p>Your account does not have access to this page.</p></div></section><section class="content-section"><div class="container"><a class="button button-ink" href="{% url 'website:home' %}">Return home <span aria-hidden="true">&#8599;</span></a></div></section>{% endblock %}

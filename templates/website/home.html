@@ -1,20 +1,73 @@
 {% extends "base.html" %}
-{% block title %}NXTWALK | Website Development & Digital Marketing{% endblock %}
+{% block title %}NXTWALK | Build. Grow. Walk Ahead.{% endblock %}
+{% block description %}High-performance websites, digital experiences and growth-focused marketing systems for ambitious businesses.{% endblock %}
 {% block content %}
-<section class="hero">
+{% include "partials/hero.html" %}
+{% include "partials/marquee.html" %}
+
+<section class="section section-white" id="services">
     <div class="container">
-        <span class="eyebrow">Web Development • SEO • Digital Marketing</span>
-        <h1>Build. Grow. Walk Ahead.</h1>
-        <p>NXTWALK creates modern websites and digital marketing solutions for growing businesses.</p>
-        <a class="btn" href="{% url 'contact:contact' %}">Start a Project</a>
+        <div class="section-head"><div><span class="eyebrow">What we do</span><h2>Digital experiences that move businesses.</h2></div><a class="text-link" href="{% url 'services:list' %}">All services <span aria-hidden="true">&#8599;</span></a></div>
+        <div class="service-list">
+            {% for service in services %}{% include "partials/service_row.html" with service=service %}
+            {% empty %}<p class="empty-state">Our service catalogue is being prepared. Get in touch to discuss your next move.</p>{% endfor %}
+        </div>
     </div>
 </section>
-<section class="container section">
-    <h2>What We Do</h2>
-    <div class="grid">
-        <article><h3>Website Development</h3><p>Fast, responsive and scalable websites using modern technologies.</p></article>
-        <article><h3>SEO</h3><p>Technical, on-page and content-focused SEO for sustainable visibility.</p></article>
-        <article><h3>Digital Marketing</h3><p>Campaigns, content and conversion-focused digital growth strategies.</p></article>
+
+<section class="kinetic-section" aria-label="NXTWALK builds digital momentum">
+    <div class="container">
+        <div class="kinetic-copy reveal"><span>We don't just</span><span>build websites.</span><span class="accent">We build</span><span class="accent">digital momentum.</span></div>
+        <p class="kinetic-aside reveal">A clear digital presence, a useful customer journey and growth work that knows where it is going.</p>
     </div>
 </section>
+
+<section class="section section-dark">
+    <div class="container why-grid">
+        <div class="why-intro"><span class="eyebrow">About NXTWALK</span><h2>We combine technology, design and growth.</h2><p>One connected team brings your website, content and marketing into the same conversation. We build useful digital foundations, then keep improving the journey.</p><a class="text-link" href="{% url 'website:about' %}">Get to know us <span aria-hidden="true">&#8599;</span></a></div>
+        <div class="principles"><article class="principle"><span>01</span><div><h3>Technology with intent</h3><p>Choose dependable tools and build around the work they need to do.</p></div></article><article class="principle"><span>02</span><div><h3>Design for real people</h3><p>Make information clear and the next useful action easy to reach.</p></div></article><article class="principle"><span>03</span><div><h3>Growth with a point of view</h3><p>Connect search, content and campaigns to business priorities.</p></div></article></div>
+    </div>
+</section>
+
+{% if projects %}
+<section class="section section-white">
+    <div class="container">
+        <div class="section-head"><div><span class="eyebrow">Selected work</span><h2>Built around the work that matters.</h2></div><a class="text-link" href="{% url 'portfolio:list' %}">Explore our work <span aria-hidden="true">&#8599;</span></a></div>
+        <div class="project-grid">{% for project in projects %}{% include "partials/project_card.html" with project=project %}{% endfor %}</div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section">
+    <div class="container">
+        <div class="section-head"><div><span class="eyebrow">How we work</span><h2>From first question to forward motion.</h2></div></div>
+        <div class="timeline-grid">
+            <article class="timeline-step is-active" data-scroll-step><span>01</span><h3>Discover</h3><p>Understand your audience, offer and ambition.</p></article>
+            <article class="timeline-step" data-scroll-step><span>02</span><h3>Strategize</h3><p>Set priorities, measures and a clear route.</p></article>
+            <article class="timeline-step" data-scroll-step><span>03</span><h3>Design</h3><p>Shape a useful, distinctive experience.</p></article>
+            <article class="timeline-step" data-scroll-step><span>04</span><h3>Develop</h3><p>Build fast, accessible and maintainable systems.</p></article>
+            <article class="timeline-step" data-scroll-step><span>05</span><h3>Launch</h3><p>Test carefully and make the transition smooth.</p></article>
+            <article class="timeline-step" data-scroll-step><span>06</span><h3>Grow</h3><p>Learn from real use and keep improving.</p></article>
+        </div>
+    </div>
+</section>
+
+{% if case_studies %}
+<section class="section section-dark">
+    <div class="container">
+        <div class="section-head"><div><span class="eyebrow">Case studies</span><h2>The challenge. The thinking. The work.</h2></div><a class="text-link" href="{% url 'case_studies:list' %}">All case studies <span aria-hidden="true">&#8599;</span></a></div>
+        {% for study in case_studies %}<a class="case-row" href="{% url 'case_studies:detail' study.project.slug %}"><span>{{ study.industry }}</span><div><h3>{{ study.project.title }}</h3><p>{{ study.project.challenge|truncatewords:18 }}</p></div><span class="case-arrow" aria-hidden="true">&#8599;</span></a>{% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if testimonials %}
+<section class="section section-white"><div class="container"><div class="section-head"><div><span class="eyebrow">Client notes</span><h2>Good partnerships show up in the details.</h2></div></div><div class="testimonial-grid">{% for testimonial in testimonials %}<figure class="testimonial"><blockquote>&ldquo;{{ testimonial.quote }}&rdquo;</blockquote><figcaption><cite>{{ testimonial.client_name }}{% if testimonial.role %}, {{ testimonial.role }}{% endif %}{% if testimonial.company %} / {{ testimonial.company }}{% endif %}</cite></figcaption></figure>{% endfor %}</div></div></section>
+{% endif %}
+
+{% if posts %}
+<section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">Journal</span><h2>Ideas for the road ahead.</h2></div><a class="text-link" href="{% url 'blog:list' %}">Read the journal <span aria-hidden="true">&#8599;</span></a></div><div class="journal-grid">{% for post in posts %}{% include "partials/blog_card.html" with post=post %}{% endfor %}</div></div></section>
+{% endif %}
+
+<section class="section section-white"><div class="container">{% include "partials/cta.html" %}</div></section>
 {% endblock %}

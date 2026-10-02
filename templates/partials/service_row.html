@@ -1,0 +1,5 @@
+<a class="service-row reveal" href="{% url 'services:detail' service.slug %}">
+    <span class="service-row__number">0{{ forloop.counter }}</span>
+    <span><h3 class="service-row__title">{{ service.title }}</h3><p class="service-row__description">{{ service.short_description }}</p></span>
+    <span class="service-row__arrow" aria-hidden="true">&#8599;</span>
+</a>

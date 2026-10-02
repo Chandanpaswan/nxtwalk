@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Your Profile | NXTWALK{% endblock %}
+{% block content %}
+<section class="page-heading"><div class="container"><span class="eyebrow">Account</span><h1>Your profile.</h1><p>Manage your contact details and account information.</p></div></section>
+<section class="content-section"><div class="container form-layout"><div class="form-intro"><h1>{{ user.get_full_name|default:user.username }}</h1><p>Update the details our team can use when working with you.</p><p><a href="{% url 'accounts:password_change' %}">Change password</a></p></div><form method="post" class="form" novalidate>{% csrf_token %}{% for field in user_form %}<div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}{% for field in profile_form %}<div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}<button class="button button-ink" type="submit">Save profile</button></form></div></section>
+{% endblock %}

@@ -1,12 +1,22 @@
 {% extends "base.html" %}
-{% block title %}Contact | NXTWALK{% endblock %}
+{% block title %}Start a Project | NXTWALK{% endblock %}
+{% block description %}Tell NXTWALK what you're building. Share your project goals and we'll start with a useful conversation.{% endblock %}
 {% block content %}
-<section class="container section">
-<h1>Contact NXTWALK</h1>
-<form method="post" class="form">
-{% csrf_token %}
-{{ form.as_p }}
-<button class="btn" type="submit">Send Message</button>
-</form>
+<section class="page-heading"><div class="container"><span class="eyebrow">Start a conversation</span><h1>Tell us where you want to go.</h1><p>A little context helps us make the first conversation more useful. We'll get back to you as soon as we can.</p></div></section>
+<section class="content-section"><div class="container form-layout">
+	<div class="form-intro"><h1>Start with the challenge.</h1><p>Share what you're trying to make possible, what is getting in the way, or which part you'd like to explore first.</p><p>Project enquiries go straight to our team for a personal follow-up.</p></div>
+	<form method="post" class="form" novalidate>
+		{% csrf_token %}
+		{{ form.website }}
+		{% if form.non_field_errors %}<div class="form-error">{{ form.non_field_errors }}</div>{% endif %}
+		{% for field in form.visible_fields %}
+		<div class="form-field{% if field.name == 'message' %} form-field-full{% endif %}">
+			<label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span aria-hidden="true">*</span>{% endif %}</label>
+			{{ field }}
+			{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+		</div>
+		{% endfor %}
+		<button class="button button-ink" type="submit">Send project enquiry <span aria-hidden="true">&#8599;</span></button>
+	</form>
 </section>
 {% endblock %}

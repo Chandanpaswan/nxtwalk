@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from apps.services.models import Service
 from .forms import ContactForm
 
 def contact(request):
@@ -11,4 +12,12 @@ def contact(request):
             return redirect("contact:contact")
     else:
         form = ContactForm()
-    return render(request, "contact/contact.html", {"form": form})
+        service_slug = request.GET.get("service", "").strip()
+        if service_slug:
+            service = Service.objects.filter(slug=service_slug, is_active=True).first()
+            if service:
+                form.initial["service"] = service.pk
+    return render(request, "contact/contact.html", {
+        "form": form,
+        "services": form.fields["service"].queryset,
+    })

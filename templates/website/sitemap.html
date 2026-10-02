@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Sitemap | NXTWALK{% endblock %}
+{% block description %}Browse NXTWALK website pages and published content.{% endblock %}
+{% block content %}<section class="page-heading"><div class="container"><span class="eyebrow">Find your way</span><h1>Website sitemap.</h1><p>Pages and published content on NXTWALK.</p></div></section><section class="content-section"><div class="container detail-pairs">
+    <section><h2>Main pages</h2><a href="{% url 'website:home' %}">Home</a><br><a href="{% url 'website:about' %}">About</a><br><a href="{% url 'services:list' %}">Services</a><br><a href="{% url 'portfolio:list' %}">Portfolio</a><br><a href="{% url 'case_studies:list' %}">Case studies</a><br><a href="{% url 'blog:list' %}">Journal</a><br><a href="{% url 'contact:contact' %}">Contact</a></section>
+    <section><h2>Services</h2>{% for service in services %}<a href="{% url 'services:detail' service.slug %}">{{ service.title }}</a><br>{% empty %}<p>No services published yet.</p>{% endfor %}</section>
+    <section><h2>Projects</h2>{% for project in projects %}<a href="{% url 'portfolio:detail' project.slug %}">{{ project.title }}</a><br>{% empty %}<p>No projects published yet.</p>{% endfor %}</section>
+    <section><h2>Case studies</h2>{% for study in case_studies %}<a href="{% url 'case_studies:detail' study.project.slug %}">{{ study.project.title }}</a><br>{% empty %}<p>No case studies published yet.</p>{% endfor %}</section>
+    <section><h2>Journal</h2>{% for post in posts %}<a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a><br>{% empty %}<p>No articles published yet.</p>{% endfor %}</section>
+    <section><h2>Legal</h2><a href="{% url 'website:privacy' %}">Privacy policy</a><br><a href="{% url 'website:terms' %}">Terms &amp; conditions</a></section>
+</div></section>{% endblock %}

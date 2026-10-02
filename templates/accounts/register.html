@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Create Account | NXTWALK{% endblock %}
+{% block content %}
+<section class="page-heading"><div class="container"><span class="eyebrow">Client access</span><h1>Create your account.</h1><p>Set up your NXTWALK profile with a secure password.</p></div></section>
+<section class="content-section"><div class="container form-layout"><div class="form-intro"><h1>Your work, in one place.</h1><p>Use a password you don't use on other sites. Passwords are stored using Django's secure password hashing.</p></div><form method="post" class="form" novalidate>{% csrf_token %}{% if form.non_field_errors %}<div class="form-error">{{ form.non_field_errors }}</div>{% endif %}{% for field in form %}<div class="form-field form-field-full"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<div class="muted">{{ field.help_text|safe }}</div>{% endif %}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}<button class="button button-ink" type="submit">Create account <span aria-hidden="true">&#8599;</span></button></form></div></section>
+{% endblock %}

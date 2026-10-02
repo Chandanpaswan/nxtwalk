@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Case Studies | NXTWALK{% endblock %}
+{% block description %}Explore the challenges, strategies and implementation behind selected NXTWALK projects.{% endblock %}
+{% block content %}
+<section class="page-heading"><div class="container"><span class="eyebrow">Case studies</span><h1>Challenge to change.</h1><p>Understand the context behind a project, the choices made along the way and what the work set out to achieve.</p></div></section>
+<section class="content-section"><div class="container">
+    {% for study in case_studies %}<a class="case-row" href="{% url 'case_studies:detail' study.project.slug %}"><span>{{ study.industry }}</span><div><h2>{{ study.project.title }}</h2><p>{{ study.project.challenge|truncatewords:20 }}</p></div><span class="case-arrow" aria-hidden="true">&#8599;</span></a>
+    {% empty %}<p class="empty-state">No case studies have been published yet. We only share project stories with client approval.</p>{% endfor %}
+    {% if page_obj.paginator.num_pages > 1 %}<nav class="pagination" aria-label="Case study pages">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous page">&#8592;</a>{% endif %}<span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" aria-label="Next page">&#8594;</a>{% endif %}</nav>{% endif %}
+</div></section>
+{% endblock %}

@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found | NXTWALK{% endblock %}
+{% block robots %}noindex,follow{% endblock %}
+{% block content %}<section class="page-heading"><div class="container"><span class="eyebrow">404 &middot; Wrong turn</span><h1>This page isn't on the map.</h1><p>The address may have changed, or the page may no longer be here.</p></div></section><section class="content-section"><div class="container"><a class="button button-ink" href="{% url 'website:home' %}">Back to NXTWALK <span aria-hidden="true">&#8599;</span></a></div></section>{% endblock %}

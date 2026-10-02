@@ -1,14 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Services | NXTWALK{% endblock %}
+{% block description %}Explore website development, design, software, SEO and digital marketing services from NXTWALK.{% endblock %}
 {% block content %}
-<section class="container section">
-<h1>Our Services</h1>
-<div class="grid">
-{% for service in services %}
-<article><h2><a href="{% url 'services:detail' service.slug %}">{{ service.title }}</a></h2><p>{{ service.short_description }}</p></article>
-{% empty %}
-<p>No services added yet. Add them from Django Admin.</p>
-{% endfor %}
-</div>
-</section>
+<section class="page-heading"><div class="container"><span class="eyebrow">Capabilities / 01-14</span><h1>We build what moves you forward.</h1><p>Development, design, search and marketing, connected around your next business goal.</p></div></section>
+<section class="content-section"><div class="container service-list">
+	{% for service in services %}{% include "partials/service_row.html" with service=service %}
+	{% empty %}<p class="empty-state">The service catalogue is not available yet. Start a conversation and we will help define the scope.</p>{% endfor %}
+</div></section>
 {% endblock %}
