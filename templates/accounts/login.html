@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Login | NXTWALK{% endblock %}
+{% block content %}
+<section class="container section">
+<h1>Login</h1>
+<form method="post" class="form">
+{% csrf_token %}
+{{ form.as_p }}
+<button class="btn" type="submit">Login</button>
+</form>
+</section>
+{% endblock %}

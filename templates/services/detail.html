@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ service.title }} | NXTWALK{% endblock %}
+{% block content %}
+<section class="container section">
+<h1>{{ service.title }}</h1>
+<p>{{ service.short_description }}</p>
+<div>{{ service.description|linebreaks }}</div>
+</section>
+{% endblock %}

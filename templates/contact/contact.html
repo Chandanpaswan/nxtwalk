@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Contact | NXTWALK{% endblock %}
+{% block content %}
+<section class="container section">
+<h1>Contact NXTWALK</h1>
+<form method="post" class="form">
+{% csrf_token %}
+{{ form.as_p }}
+<button class="btn" type="submit">Send Message</button>
+</form>
+</section>
+{% endblock %}

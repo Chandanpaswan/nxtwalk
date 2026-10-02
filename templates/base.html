@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NXTWALK{% endblock %}</title>
+    <meta name="description" content="{% block description %}NXTWALK website development and digital marketing solutions.{% endblock %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav">
+        <a class="logo" href="{% url 'website:home' %}">NXTWALK</a>
+        <nav>
+            <a href="{% url 'website:home' %}">Home</a>
+            <a href="{% url 'website:about' %}">About</a>
+            <a href="{% url 'services:list' %}">Services</a>
+            <a href="{% url 'blog:list' %}">Blog</a>
+            <a href="{% url 'contact:contact' %}">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+{% if messages %}
+<div class="container messages">
+    {% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}
+</div>
+{% endif %}
+{% block content %}{% endblock %}
+</main>
+
+<footer>
+    <div class="container">
+        <p>© {% now "Y" %} NXTWALK. All rights reserved.</p>
+    </div>
+</footer>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Blog | NXTWALK{% endblock %}
+{% block content %}
+<section class="container section">
+<h1>NXTWALK Blog</h1>
+<div class="grid">
+{% for post in posts %}
+<article><h2><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h2><p>{{ post.excerpt }}</p></article>
+{% empty %}
+<p>No published posts yet.</p>
+{% endfor %}
+</div>
+</section>
+{% endblock %}

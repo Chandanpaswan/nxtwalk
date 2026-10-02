@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}NXTWALK | Website Development & Digital Marketing{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <span class="eyebrow">Web Development • SEO • Digital Marketing</span>
+        <h1>Build. Grow. Walk Ahead.</h1>
+        <p>NXTWALK creates modern websites and digital marketing solutions for growing businesses.</p>
+        <a class="btn" href="{% url 'contact:contact' %}">Start a Project</a>
+    </div>
+</section>
+<section class="container section">
+    <h2>What We Do</h2>
+    <div class="grid">
+        <article><h3>Website Development</h3><p>Fast, responsive and scalable websites using modern technologies.</p></article>
+        <article><h3>SEO</h3><p>Technical, on-page and content-focused SEO for sustainable visibility.</p></article>
+        <article><h3>Digital Marketing</h3><p>Campaigns, content and conversion-focused digital growth strategies.</p></article>
+    </div>
+</section>
+{% endblock %}
