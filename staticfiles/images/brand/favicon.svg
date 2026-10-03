@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="10" fill="#080b10"/>
+  <!-- 3 NXT dynamic bars -->
+  <rect x="8" y="16" width="7" height="24" rx="2" fill="#4ae7ff"/>
+  <rect x="19" y="10" width="7" height="30" rx="2" fill="#4ae7ff" opacity="0.8"/>
+  <rect x="30" y="4" width="7" height="36" rx="2" fill="#5f8dff"/>
+</svg>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#080b10" id="meta-theme-color">
-    {% if site_settings.favicon %}<link rel="icon" href="{{ site_settings.favicon.url }}">{% else %}<link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">{% endif %}
+    {% if site_settings.favicon %}<link rel="icon" href="{{ site_settings.favicon.url }}">{% else %}<link rel="icon" type="image/svg+xml" href="{% static 'images/brand/favicon.svg' %}">{% endif %}
     <title>{% block title %}{{ site_settings.default_seo_title|default:site_settings.tagline|default:"NXTWALK | Build. Grow. Walk Ahead." }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ site_settings.default_meta_description|default:"Modern websites, technical SEO and digital marketing built around your next stage of growth." }}{% endblock %}">
     <meta name="keywords" content="{% block keywords %}{{ site_settings.default_keywords|default:"website development, SEO, digital marketing, NXTWALK" }}{% endblock %}">

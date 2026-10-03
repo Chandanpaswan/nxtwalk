@@ -1,0 +1,64 @@
+/* ============================================================
+   NXTWALK — Responsive Design & Media Queries
+   responsive.css
+   ============================================================ */
+
+/* ── Laptop / Small Desktop (max-width: 1024px) ──────────── */
+@media (max-width: 1024px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* ── Tablet (max-width: 768px) ───────────────────────────── */
+@media (max-width: 768px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Custom cursor suppression on touch */
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
+/* ── Mobile (max-width: 480px) ───────────────────────────── */
+@media (max-width: 480px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-toggle {
+    margin-left: auto;
+  }
+}
+
+/* ── Accessibility: Reduced Motion ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .custom-cursor {
+    display: none !important;
+  }
+
+  .reveal,
+  .fade-up,
+  .blur-reveal,
+  .slide-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

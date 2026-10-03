@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <!-- Icon mark: 3 rising bars -->
+  <rect x="4" y="16" width="8" height="28" rx="1" fill="#4ae7ff"/>
+  <rect x="15" y="8" width="8" height="36" rx="1" fill="#4ae7ff" opacity="0.75"/>
+  <rect x="26" y="2" width="8" height="42" rx="1" fill="#5f8dff"/>
+  <!-- Wordmark dark text for light bg -->
+  <text x="42" y="34" font-family="'Space Grotesk', 'Trebuchet MS', sans-serif" font-size="26" font-weight="700" letter-spacing="-0.5" fill="#0f1923">NXT<tspan fill="#4ae7ff">WALK</tspan></text>
+</svg>
+
