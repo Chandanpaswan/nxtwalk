@@ -22,6 +22,45 @@
   --adm-transition: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+[data-theme="light"] {
+  --adm-bg:        #f5f7fa;
+  --adm-surface:   #ffffff;
+  --adm-surface-2: #edf1f6;
+  --adm-accent:    #009cb8;
+  --adm-secondary: #3b66de;
+  --adm-text:      #090e15;
+  --adm-muted:     #576b80;
+  --adm-border:    #d4dde6;
+}
+
+.nxt-admin-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--adm-border);
+  border-radius: 50%;
+  background: var(--adm-surface);
+  color: var(--adm-accent);
+  cursor: pointer;
+  margin-right: 12px;
+  vertical-align: middle;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.nxt-admin-theme-toggle:hover {
+  border-color: var(--adm-accent);
+  box-shadow: 0 0 10px rgba(74, 231, 255, 0.3);
+  transform: scale(1.08);
+}
+
+[data-theme="dark"] .nxt-admin-theme-toggle .nxt-theme-moon { display: none; }
+[data-theme="dark"] .nxt-admin-theme-toggle .nxt-theme-sun { display: inline-block; }
+[data-theme="light"] .nxt-admin-theme-toggle .nxt-theme-sun { display: none; }
+[data-theme="light"] .nxt-admin-theme-toggle .nxt-theme-moon { display: inline-block; }
+
 /* ── Base Reset & Fonts ── */
 html, body {
   background: var(--adm-bg) !important;

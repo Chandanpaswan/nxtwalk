@@ -1,9 +1,15 @@
 /* ============================================================
    NXTWALK — Components Design System
-   components.css
+   Unified Brand Components & Interactions
    ============================================================ */
 
-/* ── Custom Theme Toggle Button ──────────────────────────── */
+/* ── Navigation Actions & Single Theme Toggle ─────────────── */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .theme-toggle {
   position: relative;
   display: inline-flex;
@@ -12,21 +18,26 @@
   width: 40px;
   height: 40px;
   padding: 0;
-  border: 1px solid var(--brand-border, rgba(74, 231, 255, 0.2));
+  border: 1px solid var(--border, rgba(74, 231, 255, 0.2));
   border-radius: 50%;
-  background: var(--brand-surface, #0e141d);
-  color: var(--brand-text, #edf4fb);
+  background: var(--surface, #0e141d);
+  color: var(--brand-accent, #4ae7ff);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .theme-toggle:hover {
   border-color: var(--brand-accent, #4ae7ff);
-  background: var(--brand-surface-raised, #131d29);
+  background: var(--surface-raised, #131d29);
   color: var(--brand-accent, #4ae7ff);
-  box-shadow: 0 0 16px var(--brand-glow, rgba(74, 231, 255, 0.35));
-  transform: translateY(-2px);
+  box-shadow: 0 0 16px var(--glow, rgba(74, 231, 255, 0.35));
+  transform: translateY(-2px) scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: translateY(0) scale(0.96);
 }
 
 .theme-toggle:focus-visible {
@@ -41,29 +52,31 @@
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
 }
 
-/* In Dark Mode: Show Sun icon to switch to light mode */
-[data-theme="dark"] .theme-toggle .theme-icon-light {
-  opacity: 0;
-  transform: rotate(90deg) scale(0.5);
-  pointer-events: none;
-}
-[data-theme="dark"] .theme-toggle .theme-icon-dark {
+/* In Dark Mode: Show Sun icon [ ☀ ], hide Moon */
+[data-theme="dark"] .theme-toggle .theme-icon-sun {
   opacity: 1;
   transform: rotate(0deg) scale(1);
+  pointer-events: auto;
 }
-
-/* In Light Mode: Show Moon icon to switch to dark mode */
-[data-theme="light"] .theme-toggle .theme-icon-dark {
+[data-theme="dark"] .theme-toggle .theme-icon-moon {
   opacity: 0;
-  transform: rotate(-90deg) scale(0.5);
+  transform: rotate(90deg) scale(0.4);
   pointer-events: none;
 }
-[data-theme="light"] .theme-toggle .theme-icon-light {
+
+/* In Light Mode: Show Moon icon [ 🌙 ], hide Sun */
+[data-theme="light"] .theme-toggle .theme-icon-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+  pointer-events: none;
+}
+[data-theme="light"] .theme-toggle .theme-icon-moon {
   opacity: 1;
   transform: rotate(0deg) scale(1);
+  pointer-events: auto;
 }
 
-/* ── Interactive Buttons with Motion ─────────────────────── */
+/* ── Interactive Buttons with Controlled Motion ──────────── */
 .button, .btn {
   position: relative;
   overflow: hidden;
@@ -74,8 +87,11 @@
   font-family: var(--font-display, "Space Grotesk", sans-serif);
   font-weight: 700;
   letter-spacing: 0.02em;
+  color: #071019;
+  background: var(--brand-primary, #4ae7ff);
+  border: 1px solid transparent;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              background 0.22s ease,
+              background-color 0.22s ease,
               border-color 0.22s ease,
               box-shadow 0.22s ease,
               color 0.22s ease;
@@ -99,7 +115,7 @@
 
 .button:hover, .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px var(--brand-glow, rgba(74, 231, 255, 0.35));
+  box-shadow: 0 8px 24px var(--glow, rgba(74, 231, 255, 0.35));
 }
 
 .button:active, .btn:active {
@@ -117,19 +133,35 @@
   transform: translate(6px, -4px);
 }
 
+.button-dark {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.button-dark:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  background: rgba(74, 231, 255, 0.06);
+}
+
+[data-theme="light"] .button-dark:hover {
+  background: rgba(0, 156, 184, 0.08);
+}
+
 /* ── Dashboard Cards with Hover Motion ───────────────────── */
 .dashboard-card,
 .stat-card,
 .dashboard-stats article {
   position: relative;
-  background: var(--brand-surface, #0e141d);
-  border: 1px solid var(--brand-border, #253241);
+  background: var(--surface, #0e141d);
+  border: 1px solid var(--border, #1e2c3b);
   padding: 24px;
   border-radius: 8px;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.25s ease,
               box-shadow 0.25s ease,
-              background 0.25s ease;
+              background-color 0.25s ease;
   overflow: hidden;
 }
 
@@ -152,8 +184,8 @@
 .dashboard-stats article:hover {
   transform: translateY(-4px);
   border-color: var(--brand-accent, #4ae7ff);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), 0 0 20px var(--brand-glow, rgba(74, 231, 255, 0.25));
-  background: var(--brand-surface-raised, #131d29);
+  box-shadow: var(--shadow), 0 0 20px var(--glow, rgba(74, 231, 255, 0.25));
+  background: var(--surface-raised, #131d29);
 }
 
 .dashboard-card:hover::before,
@@ -174,7 +206,7 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   border-radius: 4px;
-  border: 1px solid var(--brand-border, #253241);
+  border: 1px solid var(--border, #1e2c3b);
   background: rgba(74, 231, 255, 0.08);
   color: var(--brand-accent, #4ae7ff);
 }
@@ -192,33 +224,28 @@
 .nxt-badge-success {
   background: rgba(74, 231, 176, 0.12);
   border-color: rgba(74, 231, 176, 0.3);
-  color: var(--brand-success, #4ae7b0);
+  color: var(--success, #4ae7b0);
 }
 
 .nxt-badge-warning {
   background: rgba(255, 209, 102, 0.12);
   border-color: rgba(255, 209, 102, 0.3);
-  color: var(--brand-warning, #ffd166);
+  color: var(--warning, #ffd166);
 }
 
 .nxt-badge-danger {
   background: rgba(255, 95, 122, 0.12);
   border-color: rgba(255, 95, 122, 0.3);
-  color: var(--brand-danger, #ff5f7a);
+  color: var(--danger, #ff5f7a);
 }
 
 /* ── Glass Cards ─────────────────────────────────────────── */
 .glass-card {
-  background: rgba(14, 20, 29, 0.75);
+  background: var(--surface-glass, rgba(14, 20, 29, 0.85));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(74, 231, 255, 0.15);
+  border: 1px solid var(--border-subtle, rgba(74, 231, 255, 0.15));
   border-radius: 8px;
-}
-
-[data-theme="light"] .glass-card {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(212, 221, 230, 0.8);
 }
 
 /* ── Charts & Visual Indicators ──────────────────────────── */
@@ -228,7 +255,7 @@
   gap: 8px;
   height: 160px;
   padding: 16px 0;
-  border-bottom: 1px solid var(--brand-border, #253241);
+  border-bottom: 1px solid var(--border, #1e2c3b);
 }
 
 .chart-bar {
@@ -242,7 +269,30 @@
 
 .chart-bar:hover {
   filter: brightness(1.2);
-  box-shadow: 0 0 12px var(--brand-glow, rgba(74, 231, 255, 0.5));
+  box-shadow: 0 0 12px var(--glow, rgba(74, 231, 255, 0.5));
+}
+
+/* ── Forms and Inputs ────────────────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="tel"],
+select,
+textarea {
+  color: var(--text-primary);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px var(--glow);
 }
 
 /* ── Custom Scrollbar ────────────────────────────────────── */
@@ -252,11 +302,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--brand-background, #080b10);
+  background: var(--bg-primary, #080b10);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--brand-border, #253241);
+  background: var(--border, #1e2c3b);
   border-radius: 4px;
 }
 

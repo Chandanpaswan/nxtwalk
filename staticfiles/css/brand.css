@@ -1,27 +1,10 @@
-:root {
-    color-scheme: light;
-    --ink: #14251f;
-    --ink-soft: #52615a;
-    --forest: #10251e;
-    --forest-mid: #1c3c31;
-    --lime: #d9f36b;
-    --coral: #f27b5b;
-    --sky: #b8e7e5;
-    --paper: #f3f2eb;
-    --white: #fffefa;
-    --line: #d8ddd5;
-    --display: "Space Grotesk", "Trebuchet MS", sans-serif;
-    --body: "DM Sans", "Segoe UI", sans-serif;
-    --content: 1180px;
-}
-
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
     margin: 0;
-    color: var(--ink);
-    background-color: var(--paper);
-    background-image: linear-gradient(rgba(20,37,31,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(20,37,31,.025) 1px, transparent 1px);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 32px 32px;
     font-family: var(--body);
     line-height: 1.65;

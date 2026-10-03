@@ -1,24 +1,8 @@
-:root {
-    color-scheme: dark;
-    --ink: #edf4fb;
-    --ink-soft: #9aaabc;
-    --forest: #080b10;
-    --forest-mid: #121a25;
-    --lime: #4ae7ff;
-    --coral: #5f8dff;
-    --sky: #142a3a;
-    --paper: #080b10;
-    --white: #f4f7fb;
-    --line: #253241;
-    --surface: #0e141d;
-    --surface-raised: #131d29;
-}
-
 body {
     overflow-x: hidden;
-    color: var(--ink);
-    background-color: var(--paper);
-    background-image: linear-gradient(rgba(112,169,207,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(112,169,207,.045) 1px, transparent 1px);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 54px 54px;
 }
 
