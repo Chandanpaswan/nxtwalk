@@ -1,0 +1,327 @@
+{% extends "admin/login.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/admin-brand.css">
+<style>
+  /* ── LOGIN PAGE OVERRIDES ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body.login {
+    font-family: 'DM Sans', sans-serif;
+    background: #080b10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── Animated grid background ── */
+  body.login::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(74, 231, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74, 231, 255, 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    animation: gridPan 20s linear infinite;
+    z-index: 0;
+  }
+
+  /* ── Radial glow orbs ── */
+  body.login::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(74, 231, 255, 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 70%, rgba(95, 141, 255, 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(74, 231, 255, 0.04) 0%, transparent 60%);
+    z-index: 0;
+    animation: orbPulse 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes gridPan {
+    0%   { background-position: 0 0; }
+    100% { background-position: 48px 48px; }
+  }
+
+  @keyframes orbPulse {
+    0%   { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes fadeSlideUp {
+    0%   { opacity: 0; transform: translateY(28px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scanLine {
+    0%   { top: -2px; }
+    100% { top: 100%; }
+  }
+
+  @keyframes logoBlink {
+    0%, 90%, 100% { opacity: 1; }
+    95%            { opacity: 0.4; }
+  }
+
+  /* ── Hide the default Django login container chrome ── */
+  #container,
+  #header,
+  #footer,
+  #content-main > h1,
+  .breadcrumbs { display: none !important; }
+
+  /* ── Login card ── */
+  .nxt-login-wrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 420px;
+    padding: 16px;
+    animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .nxt-login-card {
+    background: rgba(14, 20, 29, 0.85);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(74, 231, 255, 0.18);
+    border-radius: 16px;
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(74, 231, 255, 0.06),
+      0 32px 64px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(74, 231, 255, 0.12);
+  }
+
+  /* Scan-line shimmer on card */
+  .nxt-login-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(74, 231, 255, 0.6), transparent);
+    animation: scanLine 4s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Top accent bar */
+  .nxt-login-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4ae7ff, #5f8dff, #4ae7ff);
+    background-size: 200% 100%;
+    animation: gradShift 3s linear infinite;
+    border-radius: 16px 16px 0 0;
+  }
+
+  @keyframes gradShift {
+    0%   { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+  }
+
+  /* ── Logo ── */
+  .nxt-login-logo {
+    display: block;
+    text-align: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #edf4fb;
+    text-decoration: none;
+    margin-bottom: 6px;
+    animation: logoBlink 5s ease-in-out infinite;
+  }
+
+  .nxt-login-logo span {
+    color: #4ae7ff;
+  }
+
+  .nxt-login-subtitle {
+    text-align: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: #4ae7ff;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    opacity: 0.8;
+  }
+
+  /* ── Error messages ── */
+  .nxt-login-card .errornote {
+    background: rgba(255, 95, 122, 0.1);
+    border: 1px solid rgba(255, 95, 122, 0.35);
+    border-left: 3px solid #ff5f7a;
+    color: #ff8fa3;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+  }
+
+  /* ── Form rows ── */
+  .nxt-login-card .form-row {
+    margin-bottom: 20px;
+  }
+
+  .nxt-login-card .form-row label {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a9bac;
+    margin-bottom: 8px;
+  }
+
+  .nxt-login-card .form-row input[type="text"],
+  .nxt-login-card .form-row input[type="password"] {
+    width: 100%;
+    background: rgba(8, 11, 16, 0.8);
+    border: 1px solid #1e2d3d;
+    border-radius: 8px;
+    color: #edf4fb;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .nxt-login-card .form-row input[type="text"]:focus,
+  .nxt-login-card .form-row input[type="password"]:focus {
+    border-color: #4ae7ff;
+    background: rgba(74, 231, 255, 0.04);
+    box-shadow: 0 0 0 3px rgba(74, 231, 255, 0.12), 0 0 16px rgba(74, 231, 255, 0.08);
+  }
+
+  .nxt-login-card .form-row input::placeholder {
+    color: #3a4d5e;
+  }
+
+  /* ── Submit button ── */
+  .nxt-login-card .submit-row,
+  .nxt-login-card [type="submit"] {
+    width: 100%;
+  }
+
+  .nxt-login-card input[type="submit"] {
+    width: 100%;
+    background: linear-gradient(135deg, #4ae7ff 0%, #5f8dff 100%);
+    border: none;
+    border-radius: 8px;
+    color: #080b10;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(74, 231, 255, 0.25);
+  }
+
+  .nxt-login-card input[type="submit"]:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px rgba(74, 231, 255, 0.35);
+  }
+
+  .nxt-login-card input[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 12px rgba(74, 231, 255, 0.2);
+  }
+
+  /* ── Footer note ── */
+  .nxt-login-footer-note {
+    text-align: center;
+    font-size: 0.72rem;
+    color: #3a4d5e;
+    margin-top: 28px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .nxt-login-card { padding: 36px 24px 32px; }
+    .nxt-login-logo { font-size: 2rem; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="nxt-login-wrap">
+  <div class="nxt-login-card">
+    <a href="/" class="nxt-login-logo">NXT<span>WALK</span></a>
+    <p class="nxt-login-subtitle">Digital Control Center</p>
+
+    {% if form.errors %}
+    <p class="errornote">
+      {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+    </p>
+    {% endif %}
+
+    {% if user_is_active_but_has_no_password %}
+    <p class="errornote">{% trans "You do not have a password set. Contact an administrator." %}</p>
+    {% endif %}
+
+    <form action="{{ app_path }}" method="post" id="login-form">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <label for="id_username">{% trans "Username" %}</label>
+        <input
+          type="text"
+          name="username"
+          id="id_username"
+          autocomplete="username"
+          autofocus
+          maxlength="254"
+          placeholder="Enter username"
+          {% if form.username.value %}value="{{ form.username.value }}"{% endif %}
+        >
+      </div>
+
+      <div class="form-row">
+        <label for="id_password">{% trans "Password" %}</label>
+        <input
+          type="password"
+          name="password"
+          id="id_password"
+          autocomplete="current-password"
+          placeholder="Enter password"
+        >
+      </div>
+
+      <input type="hidden" name="next" value="{{ next }}">
+      <input type="submit" value="{% trans 'Sign In' %}">
+    </form>
+
+    <p class="nxt-login-footer-note">
+      &copy; {% now "Y" %} NXTWALK &mdash; Authorized access only
+    </p>
+  </div>
+</div>
+{% endblock %}

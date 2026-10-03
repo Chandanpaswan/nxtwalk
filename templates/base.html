@@ -1,10 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#080b10">
+    <meta name="theme-color" content="#080b10" id="meta-theme-color">
     {% if site_settings.favicon %}<link rel="icon" href="{{ site_settings.favicon.url }}">{% else %}<link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">{% endif %}
     <title>{% block title %}{{ site_settings.default_seo_title|default:site_settings.tagline|default:"NXTWALK | Build. Grow. Walk Ahead." }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ site_settings.default_meta_description|default:"Modern websites, technical SEO and digital marketing built around your next stage of growth." }}{% endblock %}">
@@ -24,8 +24,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- NXTWALK Design System -->
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}">
     <link rel="stylesheet" href="{% static 'css/brand.css' %}">
     <link rel="stylesheet" href="{% static 'css/premium.css' %}">
+    <link rel="stylesheet" href="{% static 'css/themes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Inline theme init: runs before render to prevent FOUC -->
+    <script>
+      (function(){
+        var saved = localStorage.getItem('nxtwalk-theme');
+        var system = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        var theme = saved || system || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        var mc = document.getElementById('meta-theme-color');
+        if(mc) mc.content = theme === 'light' ? '#f8f9fc' : '#080b10';
+      })();
+    </script>
     {% block extra_head %}{% endblock %}
     <script type="application/ld+json">
     {
@@ -61,3 +78,4 @@
 {% block extra_js %}{% endblock %}
 </body>
 </html>
+

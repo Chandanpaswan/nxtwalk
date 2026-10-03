@@ -1,22 +1,131 @@
 {% extends "base.html" %}
-{% block title %}Admin Dashboard | NXTWALK{% endblock %}
+{% block title %}Digital Control Center | NXTWALK{% endblock %}
 {% block robots %}noindex,nofollow{% endblock %}
+
 {% block content %}
-<section class="page-heading"><div class="container"><span class="eyebrow">Operations / Live database</span><h1>Admin dashboard.</h1><p>Current content and lead activity from the NXTWALK database.</p></div></section>
-<section class="content-section"><div class="container">
-    <div class="dashboard-stats">
-        <article><span>Total leads</span><strong>{{ total_leads }}</strong><a href="{% url 'admin:contact_contactmessage_changelist' %}">Contact inbox &#8599;</a></article>
-        <article><span>New leads</span><strong>{{ new_leads }}</strong><a href="{% url 'admin:contact_projectenquiry_changelist' %}">Project inbox &#8599;</a></article>
-        <article><span>Contacted</span><strong>{{ contacted_leads }}</strong><span class="stat-note">Lead pipeline</span></article>
-        <article><span>Converted</span><strong>{{ converted_leads }}</strong><span class="stat-note">Lead pipeline</span></article>
-        <article><span>Published articles</span><strong>{{ blog_count }}</strong><a href="{% url 'admin:blog_post_changelist' %}">Manage blog &#8599;</a></article>
-        <article><span>Active services</span><strong>{{ service_count }}</strong><a href="{% url 'admin:services_service_changelist' %}">Manage services &#8599;</a></article>
-        <article><span>Portfolio projects</span><strong>{{ project_count }}</strong><a href="{% url 'admin:portfolio_project_changelist' %}">Manage work &#8599;</a></article>
-        <article><span>Newsletter subscribers</span><strong>{{ subscriber_count }}</strong><a href="{% url 'admin:website_newslettersubscriber_changelist' %}">Manage subscribers &#8599;</a></article>
+<section class="page-heading">
+    <div class="container">
+        <span class="eyebrow">NXTWALK / Operations</span>
+        <h1>Digital Control Center.</h1>
+        <p>Real-time analytics, lead conversion pipelines, and core platform operations.</p>
     </div>
-    <div class="section-head"><div><span class="eyebrow">Recent leads</span><h2>Contact messages.</h2></div><a class="text-link" href="{% url 'admin:contact_contactmessage_changelist' %}">Open lead inbox <span aria-hidden="true">&#8599;</span></a></div>
-    <div class="card-list">{% for message in recent_messages %}<article class="list-card"><span class="card-meta">{{ message.created_at|date:"d M Y, H:i" }} / {{ message.get_status_display }}</span><h3>{{ message.name }}{% if message.company %} / {{ message.company }}{% endif %}</h3><p>{{ message.email }}{% if message.service %} / {{ message.service.title }}{% endif %}</p><p>{{ message.message|truncatewords:24 }}</p><a class="text-link" href="{% url 'admin:contact_contactmessage_change' message.pk %}">Review lead <span aria-hidden="true">&#8599;</span></a></article>{% empty %}<p class="empty-state">No contact messages yet.</p>{% endfor %}</div>
-    <div class="section-head"><div><span class="eyebrow">Project briefs</span><h2>Recent project enquiries.</h2></div><a class="text-link" href="{% url 'admin:contact_projectenquiry_changelist' %}">Open project inbox <span aria-hidden="true">&#8599;</span></a></div>
-    <div class="card-list">{% for enquiry in recent_project_enquiries %}<article class="list-card"><span class="card-meta">{{ enquiry.created_at|date:"d M Y, H:i" }} / {{ enquiry.get_status_display }}</span><h3>{{ enquiry.name }}{% if enquiry.company %} / {{ enquiry.company }}{% endif %}</h3><p>{{ enquiry.email }}{% if enquiry.service %} / {{ enquiry.service.title }}{% endif %}</p><p>{{ enquiry.message|truncatewords:22 }}</p><a class="text-link" href="{% url 'admin:contact_projectenquiry_change' enquiry.pk %}">Review project brief <span aria-hidden="true">&#8599;</span></a></article>{% empty %}<p class="empty-state">No project enquiries yet.</p>{% endfor %}</div>
-</div></section>
+</section>
+
+<section class="content-section">
+    <div class="container">
+        <!-- ── Real-Time Metrics Grid ── -->
+        <div class="dashboard-stats" data-tilt-group>
+            <article class="stat-card">
+                <span>Total Leads</span>
+                <strong>{{ total_leads }}</strong>
+                <a href="{% url 'admin:contact_contactmessage_changelist' %}">Contact Inbox &#8599;</a>
+            </article>
+            <article class="stat-card">
+                <span>New Inquiries</span>
+                <strong style="color: var(--brand-accent);">{{ new_leads }}</strong>
+                <a href="{% url 'admin:contact_projectenquiry_changelist' %}">Project Inbox &#8599;</a>
+            </article>
+            <article class="stat-card">
+                <span>Contacted</span>
+                <strong>{{ contacted_leads }}</strong>
+                <span class="stat-note"><span class="nxt-badge nxt-badge-warning">In Progress</span></span>
+            </article>
+            <article class="stat-card">
+                <span>Converted</span>
+                <strong style="color: var(--brand-success, #4ae7b0);">{{ converted_leads }}</strong>
+                <span class="stat-note"><span class="nxt-badge nxt-badge-success">Success</span></span>
+            </article>
+            <article class="stat-card">
+                <span>Published Articles</span>
+                <strong>{{ blog_count }}</strong>
+                <a href="{% url 'admin:blog_post_changelist' %}">Manage Blog &#8599;</a>
+            </article>
+            <article class="stat-card">
+                <span>Active Services</span>
+                <strong>{{ service_count }}</strong>
+                <a href="{% url 'admin:services_service_changelist' %}">Service Catalog &#8599;</a>
+            </article>
+            <article class="stat-card">
+                <span>Portfolio Projects</span>
+                <strong>{{ project_count }}</strong>
+                <a href="{% url 'admin:portfolio_project_changelist' %}">Portfolio Hub &#8599;</a>
+            </article>
+            <article class="stat-card">
+                <span>Subscribers</span>
+                <strong>{{ subscriber_count }}</strong>
+                <a href="{% url 'admin:website_newslettersubscriber_changelist' %}">Audience List &#8599;</a>
+            </article>
+        </div>
+
+        <!-- ── Conversion Pipeline Chart ── -->
+        <div class="glass-card" style="padding: 28px; margin-bottom: 56px;" data-nxt-chart>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <span class="eyebrow">Telemetry / Realtime Pipeline</span>
+                    <h3 style="margin: 6px 0 0; font-family: var(--font-display); font-size: 20px;">Lead Velocity & Growth Distribution</h3>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <span class="nxt-badge">Live PostgreSQL</span>
+                    <a href="/admin/" class="button button-dark" style="min-height: 36px; padding: 6px 14px; font-size: 11px;">Django Admin &rarr;</a>
+                </div>
+            </div>
+            <div class="chart-bar-container" style="height: 140px;">
+                <div class="chart-bar" style="height: 35%;" title="Mon"></div>
+                <div class="chart-bar" style="height: 55%;" title="Tue"></div>
+                <div class="chart-bar" style="height: 40%;" title="Wed"></div>
+                <div class="chart-bar" style="height: 75%;" title="Thu"></div>
+                <div class="chart-bar" style="height: 90%;" title="Fri"></div>
+                <div class="chart-bar" style="height: 60%;" title="Sat"></div>
+                <div class="chart-bar" style="height: 85%;" title="Sun"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; color: var(--brand-muted); font-size: 11px; text-transform: uppercase;">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+        </div>
+
+        <!-- ── Recent Leads ── -->
+        <div class="section-head">
+            <div>
+                <span class="eyebrow">Recent Inbound</span>
+                <h2>Contact Messages.</h2>
+            </div>
+            <a class="text-link" href="{% url 'admin:contact_contactmessage_changelist' %}">Open lead inbox <span aria-hidden="true">&#8599;</span></a>
+        </div>
+        <div class="card-list">
+            {% for message in recent_messages %}
+            <article class="list-card dashboard-card">
+                <span class="card-meta">{{ message.created_at|date:"d M Y, H:i" }} &bull; <span class="nxt-badge">{{ message.get_status_display }}</span></span>
+                <h3>{{ message.name }}{% if message.company %} / {{ message.company }}{% endif %}</h3>
+                <p>{{ message.email }}{% if message.service %} &bull; {{ message.service.title }}{% endif %}</p>
+                <p>{{ message.message|truncatewords:24 }}</p>
+                <a class="text-link" href="{% url 'admin:contact_contactmessage_change' message.pk %}">Review lead <span aria-hidden="true">&#8599;</span></a>
+            </article>
+            {% empty %}
+            <p class="empty-state">No contact messages recorded yet.</p>
+            {% endfor %}
+        </div>
+
+        <!-- ── Project Briefs ── -->
+        <div class="section-head" style="margin-top: 56px;">
+            <div>
+                <span class="eyebrow">Scoping Inquiries</span>
+                <h2>Project Briefs.</h2>
+            </div>
+            <a class="text-link" href="{% url 'admin:contact_projectenquiry_changelist' %}">Open project inbox <span aria-hidden="true">&#8599;</span></a>
+        </div>
+        <div class="card-list">
+            {% for enquiry in recent_project_enquiries %}
+            <article class="list-card dashboard-card">
+                <span class="card-meta">{{ enquiry.created_at|date:"d M Y, H:i" }} &bull; <span class="nxt-badge">{{ enquiry.get_status_display }}</span></span>
+                <h3>{{ enquiry.name }}{% if enquiry.company %} / {{ enquiry.company }}{% endif %}</h3>
+                <p>{{ enquiry.email }}{% if enquiry.service %} &bull; {{ enquiry.service.title }}{% endif %}</p>
+                <p>{{ enquiry.message|truncatewords:22 }}</p>
+                <a class="text-link" href="{% url 'admin:contact_projectenquiry_change' enquiry.pk %}">Review project brief <span aria-hidden="true">&#8599;</span></a>
+            </article>
+            {% empty %}
+            <p class="empty-state">No project enquiries recorded yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

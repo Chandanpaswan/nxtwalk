@@ -1,0 +1,136 @@
+{% extends "admin/index.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="nxt-dashboard">
+
+  {# ── Welcome Banner ── #}
+  <div class="nxt-welcome-banner">
+    <div class="nxt-welcome-inner">
+      <div class="nxt-welcome-text">
+        <span class="nxt-welcome-label">{% trans "Welcome back," %}</span>
+        <span class="nxt-welcome-name">
+          {{ user.first_name|default:user.username }}
+        </span>
+      </div>
+      <div class="nxt-welcome-meta">
+        <span class="nxt-welcome-role">
+          {% if user.is_superuser %}
+            <span class="nxt-badge nxt-badge--super">Superuser</span>
+          {% else %}
+            <span class="nxt-badge nxt-badge--staff">Staff</span>
+          {% endif %}
+        </span>
+        <span class="nxt-welcome-datetime" id="nxt-datetime">
+          {% now "l, N j Y" %}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  {# ── Quick Stats ── #}
+  <div class="nxt-stats-grid">
+    {% if app_list %}
+      {% for app in app_list %}
+        {% for model in app.models %}
+          {% if model.add_url or model.change_url %}
+          <div class="nxt-stat-card">
+            <div class="nxt-stat-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="6" height="6" rx="1.5" fill="currentColor" opacity=".7"/>
+                <rect x="12" y="2" width="6" height="6" rx="1.5" fill="currentColor" opacity=".5"/>
+                <rect x="2" y="12" width="6" height="6" rx="1.5" fill="currentColor" opacity=".5"/>
+                <rect x="12" y="12" width="6" height="6" rx="1.5" fill="currentColor" opacity=".3"/>
+              </svg>
+            </div>
+            <div class="nxt-stat-body">
+              <p class="nxt-stat-name">{{ model.name }}</p>
+              <p class="nxt-stat-app">{{ app.name }}</p>
+            </div>
+            <div class="nxt-stat-actions">
+              {% if model.change_url %}
+                <a href="{{ model.change_url }}" class="nxt-stat-link">{% trans "View" %} &rarr;</a>
+              {% endif %}
+              {% if model.add_url %}
+                <a href="{{ model.add_url }}" class="nxt-stat-link nxt-stat-link--add">+ {% trans "Add" %}</a>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  {# ── Section divider ── #}
+  <div class="nxt-section-header">
+    <h2 class="nxt-section-title">{% trans "Applications" %}</h2>
+    <div class="nxt-section-line"></div>
+  </div>
+
+  {# ── Default app list ── #}
+  {% if app_list %}
+    {% for app in app_list %}
+    <div class="app-{{ app.app_label }} module">
+      <table>
+        <caption>
+          <a href="{{ app.app_url }}" class="section" title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">
+            {{ app.name }}
+          </a>
+        </caption>
+        {% for model in app.models %}
+        <tr class="model-{{ model.object_name|lower }}{% if model.add_url %} has-add-link{% endif %}">
+          <th scope="row">
+            {% if model.admin_url %}
+              <a href="{{ model.admin_url }}">{{ model.name }}</a>
+            {% else %}
+              {{ model.name }}
+            {% endif %}
+          </th>
+          <td>
+            {% if model.add_url %}
+              <a href="{{ model.add_url }}" class="addlink">{% trans "Add" %}</a>
+            {% endif %}
+            {% if model.admin_url and show_changelinks %}
+              {% if model.add_url %}&nbsp;{% trans "|" %}&nbsp;{% endif %}
+              <a href="{{ model.admin_url }}" class="changelink">{% trans "View" %}</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="nxt-empty-state">{% trans "You don't have permission to view or edit anything." %}</p>
+  {% endif %}
+
+  {# ── Recent actions ── #}
+  {% load log %}
+  {% get_admin_log 10 as admin_log for_user user %}
+  {% if admin_log %}
+  <div class="nxt-recent-wrap">
+    <div class="nxt-section-header" style="margin-top:32px;">
+      <h2 class="nxt-section-title">{% trans "Recent Actions" %}</h2>
+      <div class="nxt-section-line"></div>
+    </div>
+    <ul class="nxt-recent-list">
+      {% for entry in admin_log %}
+      <li class="nxt-recent-item {% if entry.is_addition %}nxt-action--add{% elif entry.is_change %}nxt-action--change{% elif entry.is_deletion %}nxt-action--delete{% endif %}">
+        <span class="nxt-recent-dot"></span>
+        <span class="nxt-recent-body">
+          {% if entry.is_deletion or not entry.get_admin_url %}
+            {{ entry.object_repr }}
+          {% else %}
+            <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+          {% endif %}
+          <span class="nxt-recent-ct">{{ entry.content_type.name }}</span>
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+</div>{# /nxt-dashboard #}
+{% endblock %}

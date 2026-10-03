@@ -13,3 +13,5 @@ staticfiles/
 .vscode/
 .idea/
 *.log
+
+.vercel
