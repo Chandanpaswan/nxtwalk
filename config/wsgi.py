@@ -15,3 +15,4 @@ if os.getenv("VERCEL"):
 from django.core.wsgi import get_wsgi_application  # noqa: E402
 
 application = get_wsgi_application()
+
