@@ -15,6 +15,10 @@ DEBUG = env_bool("DEBUG", True)
 
 ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if host.strip()]
 
+# Automatically include Vercel deployment domains
+ALLOWED_HOSTS += [".vercel.app", ".now.sh"]
+
+
 if not DEBUG and SECRET_KEY == "dev-only-change-me":
     raise ImproperlyConfigured("Set a unique SECRET_KEY in the environment when DEBUG=False.")
 
@@ -73,6 +77,10 @@ SQLITE_PATH = Path(os.getenv("SQLITE_PATH", "db.sqlite3"))
 if not SQLITE_PATH.is_absolute():
     SQLITE_PATH = BASE_DIR / SQLITE_PATH
 
+# Vercel serverless: only /tmp is writable; copy DB there at startup
+if os.getenv("VERCEL"):
+    SQLITE_PATH = Path("/tmp/db.sqlite3")
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -80,6 +88,7 @@ DATABASES = {
         "OPTIONS": {"timeout": int(os.getenv("SQLITE_TIMEOUT", "20"))},
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},

@@ -3,7 +3,9 @@ venv/
 env/
 __pycache__/
 *.py[cod]
-*.sqlite3
+# db.sqlite3 is committed intentionally for Vercel cold-start seeding
+# *.sqlite3
+
 .env
 media/
 staticfiles/
