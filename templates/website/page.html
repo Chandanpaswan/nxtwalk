@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}{{ page.seo_title|default:page.title }} | {{ site_settings.company_name }}{% endblock %}
+{% block description %}{{ page.seo_description|default:page.summary|truncatechars:160 }}{% endblock %}
+{% block canonical %}{% if page.canonical_url %}{{ page.canonical_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}{% endblock %}
+{% block content %}<section class="page-heading"><div class="container"><span class="eyebrow">{{ site_settings.company_name }} / Page</span><h1>{{ page.title }}</h1><p>{{ page.summary }}</p></div></section><section class="content-section"><article class="container article-body">{{ page.content|linebreaks }}</article></section>{% endblock %}

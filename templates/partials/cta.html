@@ -1,4 +1,6 @@
 <div class="cta-band">
-    <div><span class="eyebrow">NXTWALK / Your next move</span><h2>Ready to build what's next?</h2><p>Let's build something that moves your business forward.</p></div>
-    <a class="button" data-magnetic href="{% url 'contact:contact' %}">Start a project <span aria-hidden="true">&#8599;</span></a>
+    <div><span class="eyebrow">NXTWALK / Your next move</span><h2>Ready to build what's next?</h2><p>Let's build something that moves your business forward.</p>
+        <div class="cta-contact-links">{% if site_settings.contact_email and footer_settings.show_email %}<a href="mailto:{{ site_settings.contact_email }}">{{ site_settings.contact_email }}</a>{% endif %}{% if site_settings.phone and footer_settings.show_phone %}<a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a>{% endif %}{% if site_settings.whatsapp_link and footer_settings.show_whatsapp %}<a href="{{ site_settings.whatsapp_link }}" target="_blank" rel="noopener noreferrer">WhatsApp / {{ site_settings.whatsapp_number }}</a>{% endif %}</div>
+    </div>
+    <a class="button" data-magnetic href="{% url 'contact:project_enquiry' %}">Start a project <span aria-hidden="true">&#8599;</span></a>
 </div>

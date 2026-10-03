@@ -1,13 +1,18 @@
 from django.http import HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils import timezone
 from apps.blog.models import Post
 from apps.case_studies.models import CaseStudy
+from apps.contact.models import ContactMessage, ProjectEnquiry
 from apps.portfolio.models import Project
 from apps.services.models import Service
 from apps.testimonials.models import Testimonial
+from .forms import NewsletterForm
+from .models import NewsletterSubscriber, Page
 
 
 def home(request):
@@ -30,6 +35,40 @@ def privacy(request):
 
 def terms(request):
     return render(request, "website/terms.html")
+
+
+def content_page(request, slug):
+    page = get_object_or_404(Page, slug=slug, is_published=True)
+    return render(request, "website/page.html", {"page": page})
+
+
+def newsletter_subscribe(request):
+    if request.method != "POST":
+        return redirect("website:home")
+    form = NewsletterForm(request.POST)
+    if form.is_valid():
+        subscriber, created = NewsletterSubscriber.objects.get_or_create(
+            email=form.cleaned_data["email"],
+            defaults={"name": form.cleaned_data.get("name", ""), "is_active": True},
+        )
+        if not created:
+            changed_fields = []
+            submitted_name = form.cleaned_data.get("name", "")
+            if submitted_name and subscriber.name != submitted_name:
+                subscriber.name = submitted_name
+                changed_fields.append("name")
+            if not subscriber.is_active:
+                subscriber.is_active = True
+                changed_fields.append("is_active")
+            if changed_fields:
+                subscriber.save(update_fields=changed_fields)
+        messages.success(request, "You're on the list. Thanks for subscribing.")
+    else:
+        messages.error(request, "Please enter a valid email address to subscribe.")
+    next_url = request.POST.get("next", "")
+    if url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        return redirect(next_url)
+    return redirect("website:home")
 
 
 def html_sitemap(request):
@@ -63,12 +102,15 @@ def server_error(request):
 
 @staff_member_required
 def admin_dashboard(request):
-    from apps.contact.models import ContactMessage
-
     return render(request, "website/admin_dashboard.html", {
-        "unread_messages": ContactMessage.objects.filter(is_read=False).count(),
-        "open_messages": ContactMessage.objects.filter(is_contacted=False).count(),
+        "total_leads": ContactMessage.objects.count() + ProjectEnquiry.objects.count(),
+        "new_leads": ContactMessage.objects.filter(status=ContactMessage.NEW).count() + ProjectEnquiry.objects.filter(status=ProjectEnquiry.NEW).count(),
+        "contacted_leads": ContactMessage.objects.filter(status=ContactMessage.CONTACTED).count() + ProjectEnquiry.objects.filter(status=ProjectEnquiry.CONTACTED).count(),
+        "converted_leads": ContactMessage.objects.filter(status=ContactMessage.CONVERTED).count() + ProjectEnquiry.objects.filter(status=ProjectEnquiry.CONVERTED).count(),
+        "blog_count": Post.objects.filter(status=Post.PUBLISHED, published_at__lte=timezone.now()).count(),
         "service_count": Service.objects.filter(is_active=True).count(),
-        "post_count": Post.objects.filter(status=Post.PUBLISHED, published_at__lte=timezone.now()).count(),
+        "project_count": Project.objects.filter(is_published=True).count(),
+        "subscriber_count": NewsletterSubscriber.objects.filter(is_active=True).count(),
         "recent_messages": ContactMessage.objects.select_related("service")[:6],
+        "recent_project_enquiries": ProjectEnquiry.objects.select_related("service")[:6],
     })

@@ -1,0 +1,5 @@
+{% if site_settings.whatsapp_link and footer_settings.show_whatsapp %}
+<a class="whatsapp-float" href="{{ site_settings.whatsapp_link }}" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp" title="Chat with us on WhatsApp">
+    {% include "partials/social-icon.html" with icon="whatsapp" %}
+</a>
+{% endif %}

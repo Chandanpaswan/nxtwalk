@@ -8,6 +8,9 @@ NXTWALK is a modular Django website for a web development and digital marketing 
 - Database-managed services, projects and galleries, case studies, testimonials, categories, tags, blog posts, site settings, contact messages, and user profiles.
 - Django Admin search, filters, slug helpers, pagination, bulk contact follow-up, and project gallery management.
 - Contact form with validation, service/budget fields, and a honeypot spam check.
+- Admin-managed company/contact settings, ordered social links, navigation and footer columns, editable pages, and newsletter subscribers with CSV export.
+- Separate project enquiries with a lead-status pipeline and an Admin dashboard with live database counts.
+- Official Instagram, Facebook, X, LinkedIn, YouTube and WhatsApp links are seeded into editable records. The contact email intentionally remains blank until the owner supplies the real address.
 - Django authentication, registration, profile editing, password change, and password reset.
 - Dynamic page metadata, canonical URLs, Open Graph/Twitter tags, Organization/Service/Article schema, XML and HTML sitemaps, and robots.txt.
 - SQLite database configuration, environment-based production security, and WhiteNoise static file handling.
@@ -59,6 +62,8 @@ python manage.py createsuperuser
 
 The service catalogue is populated by a reversible data migration. Portfolio items, case studies, testimonials, and blog posts should be created in Admin only when approved content is available.
 
+The initial site-management migrations add the official social profiles, WhatsApp number, editable menu/footer links, and FAQ page. Review or change them under the `Website` section in Admin. Add the real contact email and any business address/hours only after those details are confirmed.
+
 ### 5. Run the site
 
 This is a Django application, not a static HTML site. Do not open the workspace with VS Code Live Server (commonly port `5500`); it serves the folder and cannot execute Django templates. Start the server below and open `http://127.0.0.1:8000/` instead.
@@ -76,7 +81,7 @@ python manage.py runserver
 
 ## Environment Variables
 
-See `.env.example` for the complete list. Core variables are `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, SQLite `SQLITE_PATH` and `SQLITE_TIMEOUT`, `SECURE_SSL_REDIRECT`, `SECURE_COOKIES`, `SECURE_HSTS_*`, and SMTP `EMAIL_*` values. Local development uses the console email backend by default; production should use an authenticated SMTP provider and private environment secrets.
+See `.env.example` for the complete list. Core variables are `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, SQLite `SQLITE_PATH` and `SQLITE_TIMEOUT`, `SECURE_SSL_REDIRECT`, `SECURE_COOKIES`, `SECURE_HSTS_*`, and SMTP `EMAIL_*` values. Set `DEFAULT_FROM_EMAIL` to an address NXTWALK owns once that address is confirmed. Local development uses the console email backend by default; production should use an authenticated SMTP provider and private environment secrets.
 
 ## Common Commands
 

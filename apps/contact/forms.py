@@ -1,5 +1,5 @@
 from django import forms
-from .models import ContactMessage
+from .models import ContactMessage, ProjectEnquiry
 from apps.services.models import Service
 
 
@@ -26,4 +26,29 @@ class ContactForm(forms.ModelForm):
         value = self.cleaned_data.get("website")
         if value:
             raise forms.ValidationError("Unable to submit this message.")
+        return value
+
+
+class ProjectEnquiryForm(forms.ModelForm):
+    website = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput(attrs={"autocomplete": "off", "tabindex": "-1"}),
+    )
+
+    class Meta:
+        model = ProjectEnquiry
+        fields = ["name", "email", "phone", "company", "service", "budget", "timeline", "message"]
+        widgets = {"message": forms.Textarea(attrs={"rows": 6})}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["service"].queryset = Service.objects.filter(is_active=True)
+        self.fields["service"].required = False
+        self.fields["budget"].required = False
+        self.fields["timeline"].required = False
+
+    def clean_website(self):
+        value = self.cleaned_data.get("website")
+        if value:
+            raise forms.ValidationError("Unable to submit this enquiry.")
         return value

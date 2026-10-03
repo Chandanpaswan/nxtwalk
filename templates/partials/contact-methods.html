@@ -1,0 +1,7 @@
+<div class="contact-methods">
+    {% if site_settings.contact_email and footer_settings.show_email %}<a href="mailto:{{ site_settings.contact_email }}"><span>Email</span>{{ site_settings.contact_email }}</a>{% endif %}
+    {% if site_settings.phone and footer_settings.show_phone %}<a href="tel:{{ site_settings.phone }}"><span>Phone</span>{{ site_settings.phone }}</a>{% endif %}
+    {% if site_settings.whatsapp_link and footer_settings.show_whatsapp %}<a href="{{ site_settings.whatsapp_link }}" target="_blank" rel="noopener noreferrer"><span>WhatsApp</span>{{ site_settings.whatsapp_number }}</a>{% endif %}
+    {% if site_settings.address and footer_settings.show_address %}<span>{% if site_settings.google_maps_url %}<a class="contact-address-link" href="{{ site_settings.google_maps_url }}" target="_blank" rel="noopener noreferrer">{% endif %}<span>Visit</span>{{ site_settings.address }}{% if site_settings.city %}, {{ site_settings.city }}{% endif %}{% if site_settings.country %}, {{ site_settings.country }}{% endif %}{% if site_settings.google_maps_url %}</a>{% endif %}</span>{% endif %}
+    {% if site_settings.business_hours %}<span><span>Hours</span>{{ site_settings.business_hours }}</span>{% endif %}
+</div>
